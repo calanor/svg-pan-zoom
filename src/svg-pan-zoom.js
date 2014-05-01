@@ -376,6 +376,7 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
       this.state = 'pan'
       this.stateTf = this.viewport.getCTM().inverse()
       this.stateOrigin = SvgUtils.getEventPoint(evt).matrixTransform(this.stateTf)
+      evt.target.style.cursor = 'move'; 
     } else {
       // Drag mode
       this.state = 'drag'
@@ -402,6 +403,7 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
     if (this.state === 'pan' || this.state === 'drag') {
       // Quit pan mode
       this.state = 'none'
+      evt.target.style.cursor = 'default'; 
     }
   }
 
