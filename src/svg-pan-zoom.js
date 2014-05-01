@@ -84,8 +84,8 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
 
       newCTM.a = newCTM.a * newScale; //x-scale
       newCTM.d = newCTM.d * newScale; //y-scale
-      newCTM.e = newCTM.e * newScale; //x-transform
-      newCTM.f = newCTM.f * newScale; //y-transform
+      newCTM.e = (this.width - (viewBoxWidth * newScale))/2; //x-transform
+      newCTM.f = (this.height - (viewBoxHeight * newScale))/2; //y-transform
       this.initialCTM = newCTM;
 
       // Update viewport CTM
