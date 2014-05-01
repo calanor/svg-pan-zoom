@@ -6,30 +6,49 @@ module.exports = {
    * @return {object}     {width: 0, height: 0}
    */
   getSvgDimensions: function(svg) {
-    var width = 0
-      , height = 0
-      , svgClientRects = svg.getClientRects()
+ var svgBoundingClientRect = svg.getBoundingClientRect();
+    var boundingClientWidth = parseFloat(svgBoundingClientRect.width);
+    var boundingClientHeight = parseFloat(svgBoundingClientRect.height);
+    var styleWidth, styleHeight;
 
-    if (typeof svgClientRects !== 'undefined' && svgClientRects.length > 0) {
-      var svgClientRect = svgClientRects[0];
-
-      width = parseFloat(svgClientRect.width);
-      height = parseFloat(svgClientRect.height);
-    } else {
-      var svgBoundingClientRect = svg.getBoundingClientRect();
-
-      if (!!svgBoundingClientRect) {
-        width = parseFloat(svgBoundingClientRect.width);
-        height = parseFloat(svgBoundingClientRect.height);
-      } else {
-        throw new Error('Cannot determine SVG width and height.');
-      }
+    if (!!parseFloat(svg.clip)) {
+      styleWidth = svg.clip.width;
+      styleHeight = svg.clip.height;
+    }
+    else if (!!parseFloat(svg.style.pixelWidth)) {
+      styleWidth = svg.style.pixelWidth;
+      styleHeight = svg.style.pixelWidth;
+    }
+    else if (!!parseFloat(svg.style.width)) {
+      styleWidth = svg.style.width;
+      styleHeight = svg.style.height;
+    }
+    else {
+      styleWidth = svg.getAttribute('width');
+      styleHeight = svg.getAttribute('height');
     }
 
-    return {
-      width: width
-    , height: height
+    styleWidth = styleWidth || 0;
+    styleHeight = styleHeight || 0;
+    if (styleWidth.toString().indexOf('%') === -1) {
+      styleWidth = parseFloat(styleWidth);
     }
+    else {
+      styleWidth = 0;
+    }
+    if (styleHeight.toString().indexOf('%') === -1) {
+      styleHeight = parseFloat(styleHeight);
+    }
+    else {
+      styleHeight = 0;
+    }
+    var result = {
+  //    width: Math.max(boundingClientWidth, styleWidth),
+   //   height: Math.max(boundingClientHeight, styleHeight)
+      width: styleWidth,
+      height: styleHeight
+    };
+    return result;
   }
 
   /**
