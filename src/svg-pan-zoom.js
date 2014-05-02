@@ -305,6 +305,7 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
 
       // Trigger onPan
       this.options.onPan(this._pan.x, this._pan.y)
+      evt.target.style.cursor = 'move'; 
     } else if (this.state === 'drag' && this.options.dragEnabled) {
       // Drag mode
       point = SvgUtils.getEventPoint(evt).matrixTransform(this.viewport.getCTM().inverse())
@@ -376,7 +377,6 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
       this.state = 'pan'
       this.stateTf = this.viewport.getCTM().inverse()
       this.stateOrigin = SvgUtils.getEventPoint(evt).matrixTransform(this.stateTf)
-      evt.target.style.cursor = 'move'; 
     } else {
       // Drag mode
       this.state = 'drag'
